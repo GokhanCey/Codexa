@@ -1,4 +1,4 @@
-# 🧠 Codexa  
+# Codexa  
 **Evidence-Powered AI for Smarter Search**
 
 Codexa combines **Elastic Search** and **Google Gemini** to deliver AI answers that are grounded in real data — not guesses.  
@@ -6,7 +6,7 @@ Upload your documents, ask questions, and get verified insights with full reason
 
 ---
 
-## 🚀 Overview  
+## Overview  
 Most AI tools guess their way to answers. Codexa doesn’t.  
 It connects Elastic’s fast, context-aware retrieval with Gemini’s advanced reasoning to create an AI that **explains with evidence**.  
 
@@ -14,7 +14,7 @@ Codexa is designed for professionals, researchers, and developers who want factu
 
 ---
 
-## 🧩 Features  
+## Features  
 - **Evidence-Based Answers** – Every response includes reasoning grounded in your own indexed data  
 - **Elastic + Gemini Integration** – Combines the speed of Elastic with the intelligence of Gemini  
 - **Simple Dashboard** – Upload PDFs or text files and ask questions instantly  
@@ -23,9 +23,10 @@ Codexa is designed for professionals, researchers, and developers who want factu
 
 ---
 
-## 🏗 Architecture  
+## Architecture  
 
-![Codexa Architecture](static/img/codexa-architecture.png)
+<img width="1638" height="543" alt="codexa-architecture" src="https://github.com/user-attachments/assets/b40bbf92-5ca5-496f-8241-b35daeb53bda" />
+
 
 **Codexa Architecture — Elastic + Gemini Powered AI Search**
 
@@ -74,52 +75,43 @@ Then open http://127.0.0.1:5000 in your browser.
 
 ---
 
-🧠 Built With
+### Built With
+- **Python (Flask)** — Backend and API routing  
+- **Elastic Cloud** — Document indexing and search  
+- **Google Gemini API** — Summarization and reasoning  
+- **SQLite** — Local database for API key storage  
+- **HTML + CSS (Custom Dark UI)** — Frontend design  
+- **PyPDF2** — PDF text extraction  
 
-Python (Flask) – Backend and API routing
+---
 
-Elastic Cloud – Document indexing and search
+### Hackathon Entry
+- **Challenge:** AI Accelerate – Unlocking New Frontiers  
+- **Partner Focus:** Elastic  
+Codexa shows how Elastic can work with generative AI to produce factual, verifiable insights by combining retrieval, reasoning, and explainability in one system.
 
-Google Gemini API – Summarization and reasoning
+---
 
-SQLite – Local database for API key storage
+### Roadmap
+- Add user accounts and usage tracking  
+- Support multiple document contexts  
+- Highlight evidence citations in summaries  
+- Deploy on Render or Vercel with a managed backend  
 
-HTML + CSS (Custom Dark UI) – Frontend design
+---
 
-PyPDF2 – PDF text extraction
-
-🏆 Hackathon Entry
-
-Challenge: AI Accelerate – Unlocking New Frontiers
-Partner Focus: Elastic
-Codexa demonstrates how Elastic can work alongside generative AI to produce factual, verifiable insights — combining retrieval, reasoning, and explainability in a single product.
-
-💡 Roadmap
-
-Add user accounts and usage tracking
-
-Expand to multi-document context search
-
-Integrate citation highlighting in summaries
-
-Deploy on Render or Vercel with a managed backend
-
-📄 License
-
-Released under the MIT License.
+### License 📄
+Released under the **MIT License**.  
 You’re free to use, modify, and share with credit.
 
-🌐 Live Demo & Links
+---
 
-Website: thecodexa.com
+### Live Demo & Links
+- **Website:** [thecodexa.com](https://thecodexa.com)  
+- **Frontend Demo:** `/templates/index.html`  
+- **Architecture Image:** `/static/img/codexa-architecture.png`  
 
-Frontend Demo: /templates/index.html
+---
 
-Architecture Image: /static/img/codexa-architecture.png
-
-Hackathon: AI Accelerate – Unlocking New Frontiers
-
-✨ Author
-
-Developed by Gökhan Ceylan
+### Author Developed by Gökhan Ceylan 
 GitHub: @GokhanCey
