@@ -1,4 +1,4 @@
-# 🧠 Codexa – Evidence-Powered AI for Smarter Search
+# Codexa – Evidence-Powered AI for Smarter Search
 
 Codexa is an intelligent document understanding assistant that combines **Elastic Search** and **Google Gemini** to help teams find factual answers with confidence and clarity.
 
@@ -6,7 +6,7 @@ Upload any document (PDF or text), ask natural questions, and Codexa will search
 
 ---
 
-## 🚀 Features
+## Features
 
 - **Evidence-Based AI**  
   Every answer references the original source material for full transparency.
@@ -19,7 +19,7 @@ Upload any document (PDF or text), ask natural questions, and Codexa will search
 
 ---
 
-## 🧩 System Architecture
+## System Architecture
 
 Codexa’s workflow:
 
@@ -76,7 +76,7 @@ ADMIN_TOKEN=my_secret_token_123
 
 ---
 
-## 🔑 Admin Token Setup
+## Admin Token Setup 🔑
 
 Codexa uses a lightweight admin token system to control access to project creation and management endpoints.
 
@@ -116,7 +116,7 @@ You’ll see the Codexa dashboard where you can:
 
 ---
 
-## 🗂️ Project Structure
+## Project Structure 🗂️
 
 Codexa/
 │ app.py # Main Flask app
@@ -149,7 +149,7 @@ Codexa/
 
 ---
 
-📘 Usage Example
+## Usage Example 📘
 
 Upload and query through API:
 
@@ -201,7 +201,7 @@ Style:
 
 ---
 
-## 🧠 Tech Stack
+## Tech Stack
 
 - Backend: Flask (Python)
 - Search Engine: Elastic Cloud
