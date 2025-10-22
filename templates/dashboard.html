@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Codexa Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/codexa-logo.png') }}">
+  <style>
+    pre#queryOutput {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 10px;
+      padding: 15px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      line-height: 1.6;
+      font-family: Inter, sans-serif;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Codexa</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/api_keys">API Keys</a>
+      <a href="/dashboard">Dashboard</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2 class="center">⚙️ Codexa Dashboard</h2>
+    <p class="center" style="max-width:700px;margin:0 auto 50px;color:var(--text-dim);">
+      Manage your projects, upload documents, and query Codexa’s Elastic + Gemini engine.
+    </p>
+
+    <!-- CREATE PROJECT -->
+    <div class="card">
+      <h3>1️⃣ Create a New Project</h3>
+      <p style="color:var(--text-dim);margin-bottom:20px;">
+        Each project gets its own Elastic index and API key. You’ll use this key to upload or query data.
+      </p>
+      <form id="createProjectForm">
+        <label>Project Name</label>
+        <input type="text" id="projectName" placeholder="e.g. Medical Policy Research" required />
+
+        <label>Category</label>
+        <select id="projectCategory" required>
+          <option value="policy">Policy</option>
+          <option value="contract">Contract</option>
+          <option value="academic">Academic</option>
+          <option value="FAQ">FAQ</option>
+          <option value="invoice">Invoice</option>
+          <option value="slide">Slide Deck</option>
+          <option value="source_code">Source Code</option>
+          <option value="scanned_other">Scanned / Other</option>
+        </select>
+
+        <button type="submit">Create Project</button>
+      </form>
+      <pre id="createOutput"></pre>
+    </div>
+
+    <!-- UPLOAD FILE -->
+    <div class="card">
+      <h3>2️⃣ Upload a Document</h3>
+      <p style="color:var(--text-dim);margin-bottom:20px;">
+        Upload a .pdf or .txt file to index it in your Elastic Cloud environment.
+      </p>
+      <form id="uploadForm">
+        <label>API Key</label>
+        <input type="text" id="apiKeyUpload" placeholder="Paste your project API key" required />
+        <label>Choose File</label>
+        <input type="file" id="fileInput" accept=".pdf,.txt" required />
+        <button type="submit">Upload & Index</button>
+      </form>
+      <pre id="uploadOutput"></pre>
+    </div>
+
+    <!-- QUERY -->
+    <div class="card">
+      <h3>3️⃣ Ask a Question</h3>
+      <p style="color:var(--text-dim);margin-bottom:20px;">
+        Enter your project API key and a natural-language question — Codexa will search and summarize results.
+      </p>
+      <form id="queryForm">
+        <label>API Key</label>
+        <input type="text" id="apiKeyQuery" placeholder="Paste your project API key" required />
+        <label>Your Question</label>
+        <textarea id="queryText" placeholder="Ask Codexa something..." required></textarea>
+        <button type="submit">Ask Codexa</button>
+      </form>
+      <pre id="queryOutput"></pre>
+    </div>
+  </main>
+
+  <footer>
+    <a href="/privacy">Privacy Policy</a> |
+    Codexa © 2025 • Powered by Elastic & Gemini
+  </footer>
+
+  <script>
+    const ADMIN_TOKEN = "your_admin_token_here"; // Replace with your .env ADMIN_TOKEN value
+
+    // CREATE PROJECT
+    document.getElementById("createProjectForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = document.getElementById("projectName").value;
+      const category = document.getElementById("projectCategory").value;
+
+      const res = await fetch("/api/create_project", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Admin-Token": ADMIN_TOKEN
+        },
+        body: JSON.stringify({ name, category })
+      });
+
+      const contentType = res.headers.get("content-type") || "";
+      const output = document.getElementById("createOutput");
+
+      if (res.ok && contentType.includes("application/json")) {
+        const data = await res.json();
+        output.textContent = JSON.stringify(data, null, 2);
+      } else {
+        const text = await res.text();
+        output.textContent = `Error: ${text}`;
+      }
+    });
+
+    // UPLOAD DOCUMENT
+    document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const apiKey = document.getElementById("apiKeyUpload").value;
+      const file = document.getElementById("fileInput").files[0];
+      if (!file) return;
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        headers: { "X-API-Key": apiKey },
+        body: formData
+      });
+      const data = await res.json();
+      document.getElementById("uploadOutput").textContent = JSON.stringify(data, null, 2);
+    });
+
+    // QUERY
+    document.getElementById("queryForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const apiKey = document.getElementById("apiKeyQuery").value;
+      const query = document.getElementById("queryText").value;
+      const res = await fetch("/api/query", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-Key": apiKey
+        },
+        body: JSON.stringify({ query })
+      });
+      const data = await res.json();
+      const out = document.getElementById("queryOutput");
+
+      if (data.answer) {
+        // Main formatted answer
+        const formatted = data.answer
+          .replace(/\n/g, "<br>")
+          .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+          .replace(/\*(.*?)\*/g, "<em>$1</em>")
+          .replace(/^- (.*)$/gm, "• $1");
+
+        // Build a collapsible evidence section
+        out.innerHTML = `
+          <div style="white-space:pre-wrap; line-height:1.6; font-family:Inter, sans-serif;">
+            <div style="color:#0ff; font-weight:600; margin-bottom:10px;">💡 ${formatted}</div>
+            <details style="margin-top:10px;">
+              <summary style="cursor:pointer; color:#aaa;">View Evidence</summary>
+              <div style="margin-top:8px; color:#ccc; font-size:0.9em;">
+                📄 Evidence:<br>${
+                  data.evidence_snippets
+                    ? data.evidence_snippets.map(e => `<div style='margin:6px 0;'>${e}</div>`).join("")
+                    : (data.source_list ? data.source_list.join(", ") : "")
+                }
+
+              </div>
+            </details>
+          </div>
+        `;
+      }
+      else {
+        out.textContent = JSON.stringify(data, null, 2);
+      }
+    });
+  </script>
+</body>
+</html>

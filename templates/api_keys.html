@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codexa API Keys</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/codexa-logo.png') }}">
+    <style>
+        .collapsible {
+            margin-top: 10px;
+            background-color: #111;
+            color: #ccc;
+            border: 1px solid #333;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Codexa</h1>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/api_keys">API Keys</a>
+            <a href="/dashboard">Dashboard</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2 class="center">🔐 Your API Keys</h2>
+        <div class="card" style="background:#2a2a2a;color:#ffc107;padding:15px;margin-bottom:30px;">
+            ⚠️ <strong>Prototype Notice:</strong> This version of Codexa was developed as a working prototype for the
+            <a href="https://ai-accelerate.devpost.com/" target="_blank" style="color:#66c0ff;">AI Accelerate: Unlocking New Frontiers Hackathon</a>
+            (hosted by Google Cloud, Elastic & Fivetran).
+            <br><br>
+            Please <strong>do not upload any sensitive or private documents</strong>. This environment is shared and does not yet include user authentication or data isolation.
+            Future versions will implement secure project-level access and private file storage.
+        </div>
+        <p class="center" style="max-width:700px;margin:0 auto 40px;color:var(--text-dim);">
+            Use these keys to upload documents and query your indexed data. Click to copy or test directly.
+        </p>
+
+
+        <div class="card">
+            <h3>🌟 Featured Projects</h3>
+            <p style="color:var(--text-dim);margin-bottom:20px;">
+                Click to copy the API key, see usage instructions, or try it live.
+            </p>
+            <ul id="projectList" style="list-style:none;padding:0;margin:0;"></ul>
+        </div>
+    </main>
+
+    <footer>
+        <a href="/privacy">Privacy Policy</a> |
+        Codexa © 2025 • Powered by Elastic & Gemini
+    </footer>
+
+    <script>
+        const ADMIN_TOKEN = "your_admin_token_here";
+
+        function createProjectCard(project) {
+            const li = document.createElement("li");
+            li.className = "card";
+            li.style.margin = "15px 0";
+
+            const apiKey = project.api_key;
+            const safeId = apiKey.slice(0, 8);
+
+            li.innerHTML = `
+            <strong style="color:var(--accent2);font-size:1.1rem;">${project.name}</strong><br>
+            <span style="color:var(--text-dim);font-size:0.9rem;">API Key:</span><br>
+            <code style="color:var(--success);font-size:0.9rem;">${apiKey}</code><br>
+
+            <div style="margin-top:10px;">
+              <button onclick="copyToClipboard('${apiKey}')">📋 Copy Key</button>
+              <button onclick="copySnippet('${apiKey}')">📄 Copy Snippet</button>
+              <button onclick="toggleTest('${safeId}')">🧪 Try Now</button>
+            </div>
+
+            <div id="test-${safeId}" class="collapsible">
+              <label>Test Query:</label>
+              <input type="text" id="query-${safeId}" placeholder="e.g. What is the prize for Track 1?" style="width:100%;margin:5px 0;">
+              <button onclick="runTest('${apiKey}', '${safeId}')">Send</button>
+              <pre id="response-${safeId}" style="margin-top:10px;white-space:pre-wrap;"></pre>
+            </div>
+
+            <details style="margin-top:15px;">
+              <summary>▼ How to use this?</summary>
+              <pre style="background:#111;padding:10px;font-size:0.85rem;">
+        Use this API key to:
+
+        - Upload files:
+          POST /api/upload
+          Headers: X-API-Key: ${apiKey}
+
+        - Ask questions:
+          POST /api/query
+          Headers: X-API-Key: ${apiKey}
+          Body: { "query": "your question here" }
+
+        Example curl:
+        curl -X POST http://yourdomain.com/api/query \
+          -H "Content-Type: application/json" \
+          -H "X-API-Key: ${apiKey}" \
+          -d '{"query": "What is the goal of Track 1?"}'
+              </pre>
+            </details>
+          `;
+
+            return li;
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text);
+            alert("API Key copied to clipboard");
+        }
+
+        function copySnippet(key) {
+            const snippet = `curl -X POST http://yourdomain.com/api/query \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: ${key}" \
+  -d '{"query": "Your question here"}'`;
+            navigator.clipboard.writeText(snippet);
+            alert("Snippet copied to clipboard");
+        }
+
+        function toggleTest(id) {
+            const el = document.getElementById("test-" + id);
+            el.style.display = el.style.display === "block" ? "none" : "block";
+        }
+
+        async function runTest(apiKey, safeId) {
+            const query = document.getElementById("query-" + safeId).value;
+            const resBox = document.getElementById("response-" + safeId);
+
+            const res = await fetch("/api/query", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-API-Key": apiKey
+                },
+                body: JSON.stringify({
+                    query
+                })
+            });
+
+            const data = await res.json();
+
+            if (data.answer) {
+                const formatted = data.answer
+                    .replace(/\n/g, "<br>")
+                    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+                    .replace(/\*(.*?)\*/g, "<em>$1</em>")
+                    .replace(/^- (.*)$/gm, "• $1");
+
+                resBox.innerHTML = `
+      <div style="color:#0ff; margin-bottom:10px;">💡 ${formatted}</div>
+      <details style="margin-top:10px;">
+        <summary style="cursor:pointer; color:#aaa;">View Evidence</summary>
+        <div style="margin-top:8px; color:#ccc; font-size:0.9em;">
+          📄 Evidence:<br>${
+            data.evidence_snippets
+              ? data.evidence_snippets.map(e => `<div style='margin:6px 0;'>${e}</div>`).join("")
+              : (data.source_list ? data.source_list.join(", ") : "")
+          }
+        </div>
+      </details>
+    `;
+            } else {
+                resBox.textContent = data.error || "No response.";
+            }
+        }
+
+        async function loadProjects() {
+            const res = await fetch("/api/get_projects", {
+                headers: {
+                    "X-Admin-Token": ADMIN_TOKEN
+                }
+            });
+            const projects = await res.json();
+            const list = document.getElementById("projectList");
+            list.innerHTML = "";
+
+            if (!Array.isArray(projects) || projects.length === 0) {
+                list.innerHTML = "<li style='color:var(--text-dim);'>No projects found.</li>";
+                return;
+            }
+
+            projects.forEach(p => list.appendChild(createProjectCard(p)));
+        }
+
+        loadProjects();
+    </script>
+</body>
+
+</html>

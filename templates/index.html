@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Codexa | Evidence-Powered AI Search</title>
+
+    <meta name="description" content="Codexa is an AI-powered platform that uses Elastic Search and Google Gemini to deliver evidence-based answers. Upload, search, and get verified insights instantly.">
+    <meta name="keywords" content="Codexa, AI Search, Elastic Search, Google Gemini, Evidence-Based AI, Semantic Search, AI Summarization, Hackathon, Machine Learning">
+    <meta name="author" content="Codexa Team">
+    <meta property="og:title" content="Codexa — Evidence-Powered AI Search">
+    <meta property="og:description" content="AI that finds real answers, not guesses. Powered by Elastic and Gemini.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="{{ url_for('static', filename='img/codexa-architecture.png') }}">
+    <meta name="theme-color" content="#0b0d12">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/codexa-logo.png') }}">
+</head>
+
+<body>
+    <header>
+        <h1>Codexa</h1>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/api_keys">API Keys</a>
+            <a href="/dashboard">Dashboard</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h2>Evidence-Powered AI for Smarter Search</h2>
+        <p>
+            Codexa combines <span class="highlight">Elastic Search</span> and <span class="highlight">Google Gemini</span>
+            to help teams find factual answers with clarity and confidence.
+            Upload your content, ask questions, and explore verified knowledge in seconds.
+        </p>
+        <a href="/dashboard" class="btn">Launch Dashboard</a>
+    </section>
+
+    <main>
+
+        <section class="features">
+            <div class="feature">
+                <h4>🧠 Evidence-Based AI</h4>
+                <p>Each Codexa response is grounded in the original source material, ensuring accuracy and transparency every time.</p>
+            </div>
+            <div class="feature">
+                <h4>⚙️ Elastic + Gemini</h4>
+                <p>Elastic provides fast, precise search. Gemini turns those results into concise, well-structured answers.</p>
+            </div>
+            <div class="feature">
+                <h4>🔗 Easy API Integration</h4>
+                <p>Connect Codexa to your workflows using your unique API key and automate smart document understanding.</p>
+            </div>
+        </section>
+
+        <hr />
+
+        <section>
+            <h3 class="center">How Codexa Works</h3>
+
+            <div class="steps-grid" style="margin-top:30px;">
+                <div class="step">
+                    <h4>1️⃣ Upload</h4>
+                    <p>Upload PDFs or text files through the dashboard. Codexa extracts clean text and prepares it for search.</p>
+                </div>
+                <div class="step">
+                    <h4>2️⃣ Index</h4>
+                    <p>Your data is stored in your private Elastic Cloud index for secure and efficient access.</p>
+                </div>
+            </div>
+
+            <div class="steps-grid" style="margin-top:25px;">
+                <div class="step">
+                    <h4>3️⃣ Query</h4>
+                    <p>Ask natural-language questions using the dashboard or the API. Codexa finds relevant insights instantly.</p>
+                </div>
+                <div class="step">
+                    <h4>4️⃣ Summarize</h4>
+                    <p>Google Gemini analyzes and summarizes the most relevant content, providing a complete, contextual answer.</p>
+                </div>
+            </div>
+        </section>
+
+        <hr />
+
+        <section class="center" style="margin:70px 0;">
+            <h3>Codexa System Architecture</h3>
+            <p style="color:var(--text-dim);margin-bottom:25px;">
+                This diagram shows how Codexa processes your data from upload to AI-driven results.
+            </p>
+
+            <img id="architecture-img" src="{{ url_for('static', filename='img/codexa-architecture.png') }}" alt="Codexa Architecture Diagram" class="zoomable-img" style="max-width:100%;height:auto;border:1px solid var(--border);border-radius:12px;box-shadow:0 0 15px rgba(0,0,0,0.4);cursor:pointer;">
+        </section>
+
+        <div id="imgModal" class="modal">
+            <span class="close">&times;</span>
+            <img class="modal-content" id="modalImg">
+        </div>
+
+        <hr />
+
+        <section class="center" style="margin-top:60px;">
+            <h3>Start Building with Codexa</h3>
+            <p>Generate your API key and connect Codexa to your next project today.</p>
+            <a href="/api_keys" class="btn">Get Your API Key</a>
+        </section>
+    </main>
+
+    <footer>
+        <a href="/privacy">Privacy Policy</a> |
+        Codexa © 2025 • Powered by Elastic & Gemini
+    </footer>
+
+    <script>
+        const modal = document.getElementById("imgModal");
+        const modalImg = document.getElementById("modalImg");
+        const img = document.getElementById("architecture-img");
+        const closeBtn = document.querySelector(".close");
+
+        img.onclick = function() {
+            modal.style.display = "block";
+            modalImg.src = this.src;
+        }
+
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Privacy Policy — Codexa</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/codexa-logo.png') }}">
+</head>
+
+<body>
+    <header>
+        <h1>Codexa</h1>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/api_keys">API Keys</a>
+            <a href="/dashboard">Dashboard</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2 class="center">🔒 Privacy Policy</h2>
+        <p class="center" style="max-width:700px;margin:0 auto 50px;color:var(--text-dim);">
+            At Codexa, we take privacy seriously.
+            This page outlines how data is handled within the Codexa platform.
+        </p>
+
+        <div class="card">
+            <h3>1️⃣ Information We Process</h3>
+            <ul>
+                <li>Uploaded documents (PDFs and text files) for indexing and retrieval.</li>
+                <li>User queries sent through the dashboard or API.</li>
+                <li>Project names and generated API keys stored locally in <code>codexa.db</code>.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>2️⃣ Data Handling & Retention</h3>
+            <p style="color:var(--text-dim);">
+                Uploaded files are processed temporarily and indexed within Elastic Cloud.
+                Codexa does not permanently store document contents.
+                All data resides securely under your own Elastic index and is accessible only via your generated API key.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>3️⃣ Security Practices</h3>
+            <p style="color:var(--text-dim);">
+                - All communication between your browser and Codexa’s backend occurs over HTTPS.<br>
+                - API keys are stored securely within the local server database and never exposed to other users.<br>
+                - Your Elastic and Gemini API credentials remain server-side and are never shared or logged.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>4️⃣ Contact Us</h3>
+            <p style="color:var(--text-dim);">
+                For privacy-related inquiries, please contact
+                <a href="mailto:contact@thecodexa.com" style="color:var(--accent2);text-decoration:none;">contact@thecodexa.com</a>.
+            </p>
+        </div>
+
+        <section class="center" style="margin-top:60px;">
+            <a href="/" class="btn">Return to Home</a>
+        </section>
+    </main>
+
+    <footer>
+        <a href="/privacy">Privacy Policy</a> |
+        Codexa © 2025 • Powered by Elastic & Gemini
+    </footer>
+</body>
+
+</html>
