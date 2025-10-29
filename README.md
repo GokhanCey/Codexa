@@ -116,39 +116,6 @@ You’ll see the Codexa dashboard where you can:
 
 ---
 
-## Project Structure 🗂️
-
-Codexa/
-│ app.py # Main Flask app
-│ db.py # Handles project & API key storage
-│ codexa.db # SQLite database
-│ requirements.txt # Dependencies
-│ README.md
-│ .env
-│
-├───static/
-│ ├───css/
-│ │ style.css
-│ ├───img/
-│ │ codexa-logo.png
-│ │ codexa-architecture.png
-│ │ favicon.ico
-│ └───js/
-│ main.js # (Currently unused placeholder)
-│
-├───templates/
-│ index.html # Landing page
-│ dashboard.html # Upload & query interface
-│ api_keys.html # API key management
-│ privacy.html # Privacy notice
-│
-├───uploads/
-│ .gitkeep # Empty folder for temporary uploads
-│
-└───**pycache**/
-
----
-
 ## Usage Example 📘
 
 Upload and query through API:
